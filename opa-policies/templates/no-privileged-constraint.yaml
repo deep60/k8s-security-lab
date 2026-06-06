@@ -7,3 +7,7 @@ spec:
     kinds:
     - apiGroups: [""]
       kinds: ["Pod"]
+    excludedNamespaces:
+      - falco
+      - gatekeeper-system
+      - kube-system

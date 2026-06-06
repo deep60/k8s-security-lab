@@ -1,0 +1,40 @@
+customRules:
+  custom-rules.yaml: |-
+    - rule: Sensitive File Read in Container
+      desc: Detects reading of sensitive files inside containers
+      condition: >
+        open_read and container and
+        (fd.name in (/etc/passwd, /etc/shadow, /etc/sudoers, /root/.ssh/id_rsa))
+      output: >
+        Sensitive file read in container
+        (user=%user.name file=%fd.name container=%container.name
+        image=%container.image.repository pod=%k8s.pod.name
+        namespace=%k8s.ns.name)
+      priority: WARNING
+      tags: [filesystem, mitre_discovery]
+
+    - rule: Crypto Mining Detection
+      desc: Detects potential crypto mining process
+      condition: >
+        spawned_process and container and
+        (proc.name in (xmrig, minerd, cpuminer, ccminer))
+      output: >
+        Crypto miner process detected
+        (user=%user.name command=%proc.cmdline
+        container=%container.name image=%container.image.repository)
+      priority: CRITICAL
+      tags: [malware, cryptomining]
+
+    - rule: Container Shell Spawned
+      desc: Shell spawned inside a container - possible intrusion
+      condition: >
+        spawned_process and container and
+        proc.name in (bash, sh, zsh) and
+        not proc.pname in (bash, sh, zsh, docker, containerd)
+      output: >
+        Shell spawned in container
+        (user=%user.name shell=%proc.name parent=%proc.pname
+        container=%container.name pod=%k8s.pod.name
+        namespace=%k8s.ns.name)
+      priority: WARNING
+      tags: [shell, mitre_execution]
