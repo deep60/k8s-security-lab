@@ -66,27 +66,27 @@ kube-bench flags it → manually fixed → 0 failures
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    kind Cluster                          │
+│                    kind Cluster                         │
 │                                                         │
-│  ┌─────────────┐  ┌─────────────┐  ┌────────────────┐  │
-│  │  frontend   │  │   backend   │  │   restricted   │  │
-│  │  namespace  │  │  namespace  │  │   namespace    │  │
-│  │             │  │             │  │                │  │
-│  │  low trust  │  │  med trust  │  │  high security │  │
-│  │  dev-user   │  │  deny-all   │  │  deny-all      │  │
-│  │  RBAC role  │  │  ingress    │  │  no egress     │  │
-│  └──────┬──────┘  └──────┬──────┘  └───────┬────────┘  │
+│  ┌─────────────┐  ┌─────────────┐  ┌────────────────┐   │
+│  │  frontend   │  │   backend   │  │   restricted   │   │
+│  │  namespace  │  │  namespace  │  │   namespace    │   │
+│  │             │  │             │  │                │   │
+│  │  low trust  │  │  med trust  │  │  high security │   │
+│  │  dev-user   │  │  deny-all   │  │  deny-all      │   │
+│  │  RBAC role  │  │  ingress    │  │  no egress     │   │
+│  └──────┬──────┘  └──────┬──────┘  └───────┬────────┘   │
 │         │                │                 │            │
 │  ┌──────▼─────────────────▼─────────────────▼────────┐  │
-│  │              OPA Gatekeeper                        │  │
+│  │              OPA Gatekeeper                       │  │
 │  │   (admission webhook — intercepts all API calls)  │  │
-│  └───────────────────────┬────────────────────────────┘  │
+│  └───────────────────────┬───────────────────────────   │
 │                          │                              │
-│  ┌───────────────────────▼────────────────────────────┐  │
-│  │                    Falco                           │  │
-│  │         (DaemonSet — runs on every node)           │  │
-│  │         watches syscalls inside containers         │  │
-│  └────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────▼────────────────────────────┐ │
+│  │                    Falco                           │ │
+│  │         (DaemonSet — runs on every node)           │ │
+│  │         watches syscalls inside containers         │ │
+│  └────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────┘
 ```
 
