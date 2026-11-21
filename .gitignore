@@ -1,0 +1,6 @@
+# macOS
+.DS_Store
+
+# local secrets / kubeconfigs
+.env
+*.kubeconfig
